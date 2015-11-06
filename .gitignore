@@ -19,3 +19,11 @@
 
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
+
+# Unity3D Version DLLs
+**/UnityVS/Editor/UnityVS.VersionSpecific.dll
+**/UnityVS/Editor/UnityVS.VersionSpecific.dll.meta
+Zapk/ProjectSettings/UnityAdsSettings.asset
+Zapk/ProjectSettings/UnityAnalyticsManager.asset
+Zapk/Assets/Standard Assets/ParticleSystems/Textures.meta
+Zapk/Assets/Standard Assets/ParticleSystems.meta
