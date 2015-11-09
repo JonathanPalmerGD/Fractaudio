@@ -53,10 +53,14 @@ public class MapGenerator : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
 			SmoothMap();
+			MeshGenerator meshGen = GetComponent<MeshGenerator>();
+			meshGen.GenerateMesh(map, 1);
 		}
 		if (Input.GetKeyDown(KeyCode.LeftControl))
 		{
 			AddDust();
+			MeshGenerator meshGen = GetComponent<MeshGenerator>();
+			meshGen.GenerateMesh(map, 1);
 		}
 
 	}
