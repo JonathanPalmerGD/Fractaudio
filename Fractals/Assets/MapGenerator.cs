@@ -4,6 +4,9 @@ using System;
 
 public class MapGenerator : MonoBehaviour
 {
+	public enum GenMode { Map, Layout, Walls }
+	public GenMode currentGenMode;
+
 	[Range(10, 150)]
 	public int width = 50;
 	[Range(10, 100)]
@@ -82,8 +85,26 @@ public class MapGenerator : MonoBehaviour
 		//AddMud();
 		//SmoothMud();
 
+		int borderSize = 5;
+		int[,] borderedMap = new int[width + borderSize * 2, depth + borderSize * 2];
+
+		for (int x = 0; x < borderedMap.GetLength(0); x++)
+		{
+			for (int z = 0; z < borderedMap.GetLength(1); z++)
+			{
+				if (x >= borderSize && x < width + borderSize && z >= borderSize && z < depth + borderSize)
+				{
+					borderedMap[x, z] = map[x - borderSize, z - borderSize];
+				}
+				else
+				{
+					borderedMap[x, z] = 1;
+				}
+			}
+		}
+
 		MeshGenerator meshGen = GetComponent<MeshGenerator>();
-		meshGen.GenerateMesh(map, 1);
+		meshGen.GenerateMesh(borderedMap, 1);
 	}
 
 	void RandomFillMap()
@@ -425,25 +446,28 @@ public class MapGenerator : MonoBehaviour
 
 	void OnDrawGizmos()
 	{
-		/*if (map != null)
+		if (currentGenMode == GenMode.Map)
 		{
-			for (int x = 0; x < width; x++)
+			if (map != null)
 			{
-				for (int z = 0; z < depth; z++)
+				for (int x = 0; x < width; x++)
 				{
-					try
+					for (int z = 0; z < depth; z++)
 					{
-						Gizmos.color = tileColors[map[x, z]];
-						Vector3 pos = new Vector3(-width / 2 + x + .5f, 0, -depth / 2 + z + .5f);
-						Gizmos.DrawCube(pos, Vector3.one);
-					}
-					catch (Exception e)
-					{
-						Debug.LogError("Unable to create Gizmo at (" + x + ",0," + z + ")\n" + map.Length + "\n" + e.Message);
-					}
+						try
+						{
+							Gizmos.color = tileColors[map[x, z]];
+							Vector3 pos = new Vector3(-width / 2 + x + .5f, 0, -depth / 2 + z + .5f);
+							Gizmos.DrawCube(pos, Vector3.one);
+						}
+						catch (Exception e)
+						{
+							Debug.LogError("Unable to create Gizmo at (" + x + ",0," + z + ")\n" + map.Length + "\n" + e.Message);
+						}
 
+					}
 				}
 			}
-		}*/
+		}
 	}
 }
